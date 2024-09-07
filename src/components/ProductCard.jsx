@@ -2,21 +2,22 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import AntDesign from "react-native-vector-icons/AntDesign";
 
-const ProductCard = () => {
-    const isLiked = true
+const ProductCard = ({item, handleLiked}) => {
+    // const isLiked = true
     // const [isLiked, setIsLiked] = useState(false)
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/girl.png')} style={styles.coverImage} />
+      <Image source={{ uri: item.image }} style={styles.coverImage} />
       <View style={styles.content}>
-        <Text style={styles.title}>Jacket Jeans</Text>
-        <Text style={styles.price}>$45.9</Text>
+        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.price}>${item.price}</Text>
       </View>
-      <TouchableOpacity style={styles.likeContainer} >
+      <TouchableOpacity style={styles.likeContainer} onPress={() => {handleLiked(item)}}>
         {
-            isLiked ? (
+            item.isLiked ? (
                 <AntDesign name={"heart"} size={20} color="#E55B5B" />
             ) : (
+               
                 <AntDesign name={"hearto"} size={20} color="#E55B5B" />
             )
         }

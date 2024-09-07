@@ -5,15 +5,32 @@ import Header from "../components/Header";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import Category from "../components/Category";
 import ProductCard from "../components/ProductCard";
+import data from '../data/data.json'
 
 const categories = ['Trending Now', 'All', 'New', 'Mens', 'Womens']
 const HomeScreen = () => {
+    const [products, setProducts] = useState(data.products)
     const [selectedCategory, setSelectedCategory] = useState(null)
+
+    const handleLiked = (item) => {
+        const newProducts = products.map((prod) => {
+            if(prod.id === item.id) {
+                return {
+                    ...prod,
+                    isLiked: true
+                }
+            }
+            return prod;
+        });
+        setProducts(newProducts);
+    }
   return (
     <LinearGradient colors={["#FDF0F3", "#FFFBFC"]} style={styles.container}>
         <Header/>
         
-        <FlatList numColumns={2}  data={[1,2,3,4,5,6]} renderItem={ProductCard} showsVerticalScrollIndicator={false} ListHeaderComponent={
+        <FlatList numColumns={2}  data={products} renderItem={({item, index}) => <ProductCard 
+            item={item} handleLiked={handleLiked}
+        />} showsVerticalScrollIndicator={false}  ListHeaderComponent={
             <>
                 <Text style={styles.matchText}>Match Your Style</Text>
                 <View style={styles.inputContainer}>
@@ -28,9 +45,11 @@ const HomeScreen = () => {
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
                 />
-                )} keyExtractor={(item) => item} horizontal={true} showsHorizontalScrollIndicator={false}/>
+                )} keyExtractor={(item) => item} horizontal={true} showsHorizontalScrollIndicator={false} />
             </>
-        }/>
+        } contentContainerStyle={{
+            paddingBottom: 50
+        }}/>
         {/* <View style={{ flexDirection: "row" }}>
             <ProductCard/>
             <ProductCard/>
