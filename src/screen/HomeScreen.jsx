@@ -4,6 +4,7 @@ import LinearGradient from "react-native-linear-gradient";
 import Header from "../components/Header";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import Category from "../components/Category";
+import ProductCard from "../components/ProductCard";
 
 const categories = ['Trending Now', 'All', 'New', 'Mens', 'Womens']
 const HomeScreen = () => {
@@ -11,20 +12,30 @@ const HomeScreen = () => {
   return (
     <LinearGradient colors={["#FDF0F3", "#FFFBFC"]} style={styles.container}>
         <Header/>
-        <Text style={styles.matchText}>Match Your Style</Text>
-        <View style={styles.inputContainer}>
-            <View style={styles.iconContainer}>
-                <Fontisto name={"search"} size={26} color={"#B6B6B6"}  />
-            </View>
-            <TextInput style={styles.textInput} placeholder="Search" placeholderTextColor="#999" />
-        </View>
-        <FlatList data={categories} renderItem={({item}) => (
-            <Category 
-                item={item}
-                selectedCategory={selectedCategory}
-                setSelectedCategory={selectedCategory}
-            />
-        )} keyExtractor={(item) => item} horizontal={true} showsHorizontalScrollIndicator={false}/>
+        
+        <FlatList numColumns={2}  data={[1,2,3,4,5,6]} renderItem={ProductCard} showsVerticalScrollIndicator={false} ListHeaderComponent={
+            <>
+                <Text style={styles.matchText}>Match Your Style</Text>
+                <View style={styles.inputContainer}>
+                    <View style={styles.iconContainer}>
+                        <Fontisto name={"search"} size={26} color={"#B6B6B6"}  />
+                    </View>
+                    <TextInput style={styles.textInput} placeholder="Search" placeholderTextColor="#999" />
+                </View>
+                <FlatList data={categories} renderItem={({item}) => (
+                <Category 
+                    item={item}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                />
+                )} keyExtractor={(item) => item} horizontal={true} showsHorizontalScrollIndicator={false}/>
+            </>
+        }/>
+        {/* <View style={{ flexDirection: "row" }}>
+            <ProductCard/>
+            <ProductCard/>
+        </View> */}
+        
     </LinearGradient>
   );
 };
@@ -33,7 +44,6 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 20
   },
   matchText: {
