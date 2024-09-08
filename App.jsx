@@ -9,6 +9,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import ProductDetailScreen from "./src/screen/ProductDetailScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import CartScreen from "./src/screen/CartScreen";
+import { CartContext, CartProvider } from "./src/context/CartContext";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -24,13 +26,16 @@ const MyHomeStack = () => {
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <CartProvider>
+      <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
           tabBarShowLabel: false,
           tabBarActiveTintColor: "#E96E6E",
         }}
+        initialRouteName="CART"
+
       >
         <Tab.Screen
           name="HOME_STACK"
@@ -60,17 +65,31 @@ export default function App() {
         />
         <Tab.Screen
           name="CART"
-          component={HomeScreen}
+          component={CartScreen}
           options={{
             tabBarIcon: ({ size, focused, color }) => {
+              const {carts} = React.useContext(CartContext)
               return (
-                <Text>
+                <View >
                   <MaterialCommunityIcons
                     name={"cart"}
                     size={size}
                     color={color}
                   />
-                </Text>
+                  <View style={{
+                          position: "absolute",
+                          right: -3,
+                          bottom: 22,
+                          height: 14,
+                          width: 14,
+                          backgroundColor: "#E96E6E",
+                          borderRadius: 7,
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}>
+                    <Text style={{ color: "white", fontSize: 10 }}>{carts.length}</Text>
+                  </View>
+                </View>
               );
             },
           }}
@@ -89,6 +108,7 @@ export default function App() {
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
+    </CartProvider>
   );
 }

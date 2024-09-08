@@ -9,7 +9,7 @@ const ProductCard = ({item, handleLiked}) => {
     // const [isLiked, setIsLiked] = useState(false)
   return (
     <TouchableOpacity onPress={() => {
-        navigation.navigate("PRODUCT_DETAILS", item)
+        navigation.navigate("PRODUCT_DETAILS", {item})
     }} style={styles.container}>
       <Image source={{ uri: item.image }} style={styles.coverImage} />
       <View style={styles.content}>
